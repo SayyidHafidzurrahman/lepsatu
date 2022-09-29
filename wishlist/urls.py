@@ -16,6 +16,6 @@ urlpatterns = [
     path('json/<int:id>', paraxmlid, name='paraxmlid'), 
     path('json/<int:id>', parajsonid, name='parajsonid'),
     path('register/', register, name='register'), 
-    path('login/', login_user, name='login'),
-    path('logout/', logout_user, name='logout'),
+    path('login/', login_user, name='login_user'),
+    path('logout/', logout_user, name='logout_user'),
 ]

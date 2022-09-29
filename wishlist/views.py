@@ -40,7 +40,7 @@ def register(request):
         if form.is_valid():
             form.save()
             messages.success(request, 'Akun telah berhasil dibuat!')
-            return redirect('wishlist:login')
+            return redirect('wishlist:login_user')
     
     context = {'form':form}
     return render(request, 'register.html', context)
@@ -60,7 +60,7 @@ def login_user(request):
     return render(request, 'login.html', context)
 def logout_user(request):
     logout(request)
-    response = HttpResponseRedirect(reverse('wishlist:login'))
+    response = HttpResponseRedirect(reverse('wishlist:login_user'))
     response.delete_cookie('last_login')
     return response
 # Create your views here.

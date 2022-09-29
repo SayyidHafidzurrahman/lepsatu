@@ -1,25 +1,47 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<h5>Nama: </h5>
-<p>{{nama}}</p>
 
-<table>
-    <tr>
-    <th>Nama Barang</th>
-    <th>Harga Barang</th>
-    <th>Deskripsi</th>
-    </tr>
-    {% comment %} Tambahkan data di bawah baris ini {% endcomment %}
-    {% for barang in list_barang %}
-        <tr>
-            <th>{{barang.nama_barang}}</th>
-            <th>{{barang.harga_barang}}</th>
-            <th>{{barang.deskripsi}}</th>
-        </tr>
-    {% endfor %}
-</table>
-<h5>Sesi terakhir login: {{ last_login }}</h5>
-<button><a href="{% url 'wishlist:logout' %}">Logout</a></button>
+{% comment %} Navbar {% endcomment %}
+<nav class="navbar navbar-expand-sm navbar-dark bg-dark mb-3">
+    <div class="container-fluid">
+        <span class="navbar-brand mb-0 h1">{{nama}}</span>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar-top-buttons" aria-controls="navbar-top-buttons" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbar-top-buttons">
+            <div class="navbar-nav">
+                <a class="nav-link" href="logout">Logout</a>
+            </div>
+        </div>
+    </div>
+</nav>
 
+<div class="container-fluid">
+    <h5>Nama: </h5>
+    <p>{{nama}}</p> {% comment %} Nama diambil dari context pada view {% endcomment %}
+
+    <table class="table table-striped table-hover table-bordered mx-auto">
+        <thead>
+            <tr>
+                <th scope="col">Nama Barang</th>
+                <th scope="col">Harga Barang</th>
+                <th scope="col">Deskripsi</th>
+            </tr>
+        </thead>
+        {% comment %} Tambahkan data di bawah baris ini {% endcomment %}
+        {% comment %} Cetak tabel dengan detail tiap anggota BarangWishlist {% endcomment %}
+        <tbody class="table-group-divider">
+            {% for barang in list_barang %}
+            <tr>
+                <td>{{barang.nama_barang}}</td>
+                <td>{{barang.harga_barang}}</td>
+                <td>{{barang.deskripsi}}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <p><b>Sesi terakhir login: {{ last_login }}</b></p>
+    <button type="button" class="btn btn-warning" style="--bs-btn-padding-y: .5rem; --bs-btn-padding-x: .75rem; --bs-btn-font-size: .9rem;"><a href="{% url 'wishlist:logout_user' %}">Logout</a></button>
+</div>
 {% endblock content %}
