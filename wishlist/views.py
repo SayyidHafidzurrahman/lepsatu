@@ -1,3 +1,4 @@
+import json
 import datetime
 from django.http import HttpResponseRedirect
 from django.urls import reverse
@@ -20,18 +21,44 @@ def show_wishlist(request):
         'last_login': request.COOKIES['last_login'],
     }
     return render(request, "wishlist.html", context)
+
+@login_required(login_url='/wishlist/login/')
+def ajax_views(request):
+    data_barang_wishlist = BarangWishlist.objects.all()
+    context = {
+        'list_barang': data_barang_wishlist,
+        'nama': 'Sayyid Hafidzurrahman Atstsaqofi',
+        'last_login': request.COOKIES['last_login'],
+    }
+    return render(request, 'wishlist_ajax.html', context)
+
+def add_wish(request):
+    if request.method == "POST":
+        data = json.loads(request.POST['data'])
+
+        new_task = BarangWishlist(nama_barang=data["nama_barang"], harga_barang=data["harga_barang"], deskripsi=data["deskripsi"])
+        new_task.save()
+
+        return HttpResponse(serializers.serialize("json", [new_task]), content_type="application/json")
+
+    return redirect('wishlist:show_wishlist_ajax')
+
 def parameter(request):
     data = BarangWishlist.objects.all()
     return HttpResponse(serializers.serialize("xml", data), content_type="application/xml")
+
 def parajson(request):
     data = BarangWishlist.objects.all()
     return HttpResponse(serializers.serialize("json", data), content_type="application/json")
+
 def paraxmlid(request, id):
     data = BarangWishlist.objects.filter(pk=id)
     return HttpResponse(serializers.serialize("xml", data), content_type="application/xml")
+
 def parajsonid(request, id):
     data = BarangWishlist.objects.filter(pk=id)  
     return HttpResponse(serializers.serialize("json", data), content_type="application/json")  
+
 def register(request):
     form = UserCreationForm()
 

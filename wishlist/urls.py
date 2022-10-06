@@ -1,16 +1,23 @@
 from django.urls import path
-from wishlist.views import show_wishlist
-from wishlist.views import parameter
-from wishlist.views import parajson
-from wishlist.views import paraxmlid
-from wishlist.views import parajsonid
-from wishlist.views import register
-from wishlist.views import login_user
-from wishlist.views import logout_user
+from wishlist.views import (
+    show_wishlist,
+    ajax_views,
+    add_wish,
+    parameter,
+    parajson,
+    paraxmlid,
+    parajsonid,
+    register,
+    login_user,
+    logout_user,
+    
+)
 app_name = 'wishlist'
 
 urlpatterns = [
     path('', show_wishlist, name='show_wishlist'),
+    path('ajax/', ajax_views, name='ajax_views'),
+    path('ajax/submit/', add_wish, name='add_wish'),
     path('xml/', parameter, name='parameter'),
     path('json/', parajson, name='parajson'),
     path('json/<int:id>', paraxmlid, name='paraxmlid'), 
